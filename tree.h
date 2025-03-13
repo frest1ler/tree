@@ -3,9 +3,17 @@
 
 struct Node
 {
-    int  data ;
-    int* left ;
-    int* right;
+    int   data   ;
+    void* left   ;
+    void* right  ;
+    void* pointer;
+    void* parent ;
+};
+
+struct Tree
+{
+    int   size;
+    void* root;
 };
 
 #endif /*TREE_H*/

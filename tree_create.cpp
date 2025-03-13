@@ -2,61 +2,55 @@
 #include <stdlib.h>
 #include "tree_create.h"
 
-int* get_pointer_tree()
-{
-    int* node = (int*)calloc(1, sizeof(Node));
+Node* get_pointer_node() {
+    Node* node = (Node*)calloc(1, sizeof(Node));
 
-    if (node == NULL)
-    {
-        printf("Memory allocation failed\n");
-
+    if (node == NULL) {
+        printf("Memory allocation failed : node\n");
         return NULL;
     }
 
     return node;
 }
 
-void tree_destroy(int*  node)
+Node* node_ctor(Node* node, int value, void* parent)
 {
-    if (list->data != NULL)
-    {
-        free(list->data);
-    }
-    else
-    {
-        printf("NULL pointer list->data\n");
-    }
+    Node* node = get_pointer_node();
 
-    if (list->next != NULL)
-    {
-        free(list->next);
-    }
-    else
-    {
-        printf("NULL pointer list->next\n");
-    }
+    node->data    = value ;
+    node->parent  = parent;
+    node->pointer = node  ;
 
-    if (list->prev != NULL)
-    {
-        free(list->prev);
-    }
-    else
-    {
-        printf("NULL pointer list->prev\n");
-    }
-
-    if (list != NULL)
-    {
-        free(list);
-    }
-    else
-    {
-        printf("NULL pointer list\n");
-    }
+    return node;
 }
-void tree_ctor(int* pointer)
-{
-    Node* node  = (Node*)calloc(1, sizeof(Node));
 
-    pointer = &node;
+void node_destroy(Node* node) {
+    if (node == NULL) {
+        printf("NULL pointer node\n");
+        return;
+    }
+
+    if (node->left != NULL){
+        free(node->left);
+    }
+
+    if (node->right != NULL){
+        free(node->right); 
+    }
+
+    if (node != NULL){
+        free(node);
+    }
+    free(node);
+}
+
+void ctor_tree(Node* node)
+{
+    Tree* tree = (Tree*)calloc(1, sizeof(Tree));
+
+    if (tree == NULL) {
+        printf("Memory allocation failed: Tree\n");
+        return;
+    }
+    tree->root = node;
 }
