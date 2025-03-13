@@ -13,7 +13,7 @@ Node* get_pointer_node() {
     return node;
 }
 
-Node* node_ctor(Node* node, int value, void* parent)
+Node* node_ctor(Node* node, int value, Node* parent)
 {
     Node* node = get_pointer_node();
 
@@ -37,20 +37,21 @@ void node_destroy(Node* node) {
     if (node->right != NULL){
         free(node->right); 
     }
-
-    if (node != NULL){
-        free(node);
-    }
     free(node);
 }
 
-void ctor_tree(Node* node)
+Tree* ctor_tree()
 {
     Tree* tree = (Tree*)calloc(1, sizeof(Tree));
 
     if (tree == NULL) {
         printf("Memory allocation failed: Tree\n");
-        return;
+        return NULL;
     }
+
+    Node* node = get_pointer_node();
+
     tree->root = node;
+
+    return tree;
 }

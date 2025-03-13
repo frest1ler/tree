@@ -3,11 +3,9 @@
 
 int main()
 {
-    Node* node = get_pointer_node();
+    Tree* tree = ctor_tree();
 
-    ctor_tree(node);
-
-    node_destroy(node);
+    node_destroy(tree->root);
 
     return 0;
 }

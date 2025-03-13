@@ -100,9 +100,9 @@ void dump_align(FILE * point_to_file)
 //     fprintf(point_to_file, "All:<f3> -> %d [color = red];", node->free);
 // }
 
-void Insert(Node* node)
-{
-    int* parrent = 0;
+void insert(Node* node, int value)
+{   
+    Node* parrent = 0;
 
     while(node != NULL)
     {
@@ -110,5 +110,6 @@ void Insert(Node* node)
 
         node = (value < node->data)? node->left:node->right;
     }
-    node_ctor(parrent);
+    node_ctor(node, value, parrent); //Node* node_ctor(Node* node, int value, Node* parent)
 }
+

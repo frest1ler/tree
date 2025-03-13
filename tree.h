@@ -4,16 +4,16 @@
 struct Node
 {
     int   data   ;
-    void* left   ;
-    void* right  ;
-    void* pointer;
-    void* parent ;
+    Node* left   ;
+    Node* right  ;
+    Node* pointer;
+    Node* parent ;
 };
 
 struct Tree
 {
     int   size;
-    void* root;
+    Node* root;
 };
 
 #endif /*TREE_H*/
