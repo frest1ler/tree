@@ -13,7 +13,7 @@ Node* get_pointer_node() {
     return node;
 }
 
-Node* node_ctor(Node* node, int value, Node* parent)
+Node* node_ctor(int value, Node* parent)
 {
     Node* node = get_pointer_node();
 
@@ -24,7 +24,8 @@ Node* node_ctor(Node* node, int value, Node* parent)
     return node;
 }
 
-void node_destroy(Node* node) {
+void node_destroy(Node* node) 
+{
     if (node == NULL) {
         printf("NULL pointer node\n");
         return;
@@ -51,7 +52,40 @@ Tree* ctor_tree()
 
     Node* node = get_pointer_node();
 
-    tree->root = node;
+    node->data = POISON;
+    tree->root = node  ;
 
     return tree;
+}
+
+void insert(Tree* tree, int value)
+{   
+    int   branch = POISON    ;
+    Node* parent = 0         ;
+    Node* node   = tree->root;
+
+    while(node != NULL && node->data != POISON)
+    {
+        parent = node->parent;
+
+        if (value < node->data){
+            branch = LEFT;
+            node = node->left;
+        }
+        else{
+            branch = RIGHT;
+            node = node->right;
+        }
+    }
+
+    if (branch == LEFT){
+        node->left = node_ctor(value, parent);
+    }
+    else if (branch == RIGHT){
+        node->right = node_ctor(value, parent);
+    }
+    else{ //branch == POISON
+        node->data = value;
+    }
+    (tree->size)++;
 }
