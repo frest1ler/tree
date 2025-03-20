@@ -8,5 +8,6 @@ const int BRANCHES          =  1;
 #include "tree.h"
 
 void dump(Tree* tree, char* fname);
+void dump_node(Node* node, FILE * point_to_file);
 
 #endif /*DUMP_H*/

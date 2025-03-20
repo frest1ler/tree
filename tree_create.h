@@ -11,7 +11,8 @@ Node* get_pointer_node();
 Node* node_ctor(int value, void* parent);
 Tree* ctor_tree();
 
-void  node_destroy(Node* node);
-void  insert(Tree* tree, int value);
-
+void  node_destroy  (Node* node);
+void  insert        (Tree* tree, int value);
+void  bypass        (Tree* tree, FILE * point_to_file);
+void  bypass_destroy(Tree* tree);
 #endif /*TREE_CREATE_H*/

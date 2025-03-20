@@ -2,15 +2,14 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "dump.h"
+#include "tree_create.h"
 
 void dump_first_node(Tree* tree, FILE * point_to_file);
-void dump_node(Node* node, FILE * point_to_file);
 
-
-int  use_left(Node* node);
-int  go_left (Node* node);
-void go_back (Node* node);
-void bypass  (Tree* tree);
+//int  use_left(Node* node);
+//int  go_left (Node* node);
+//void go_back (Node* node);
+//void bypass  (Tree* tree);
 
 void dump(Tree* tree, char* fname)
 {
@@ -31,7 +30,7 @@ void dump(Tree* tree, char* fname)
 
     //Node* node = tree->root;
 
-    bypass(tree);
+    bypass(tree, point_to_file);
 
     //dump_node(node, point_to_file);    
 
@@ -65,54 +64,64 @@ void dump_first_node(Tree* tree, FILE * point_to_file)
 
     fprintf(point_to_file, "subgraph cluster_A {label=\"Облачко A\";style=dashed;node [shape=record];\n");
 
-    fprintf(point_to_file, "a%p [label=\"{Parent %p | Ptr %p | Type %d | Data %d | {Left %p | Right %p }}\"];\n root -> a;", tree->root,tree, tree->root, type, (tree->root)->data, (tree->root)->left, (tree->root)->right);
+    fprintf(point_to_file, "a%p [label=\"{Parent %p | Ptr %p | Type %d | Data %d | {Left %p | Right %p }}\"];\n root -> a%p;", tree->root,tree, tree->root, type, (tree->root)->data, (tree->root)->left, (tree->root)->right, tree->root);
 }
 
-int use_left(Node* node)
-{
-    int count_node = 0;
+// int use_left(Node* node) {
+//     if (node == NULL) {
+//         return 0; // Проверка на NULL
+//     }
+    
+//     int count_node = 0;    
+//     while (node->left != NULL) {
+//         node = node->left; 
+//         count_node++;
+//     }
+//     return count_node;
+// }
 
-    while(node->left != NULL)
-    {
-        node = node->left;
+// void go_back(Node* node) {
+//     while (node != NULL && node->right == NULL) {
+//         node = node->parent; // Убедитесь, что node не NULL перед доступом к parent
+//     }
+//     if (node == NULL) {
+//         // Обработка случая, когда node стал NULL
+//         // Это может быть конец обхода
+//     }
+// }
 
-        count_node++;
-    }
-    return count_node;
-}
+// int go_left(Node* node) {
+//     if (node == NULL) {
+//         return 0; // Проверка на NULL
+//     }
 
-void bypass(Tree* tree)
-{
-    int found_size = 0;
+//     int add_found_size = 0;    
+//     while (node->right != NULL || node->left != NULL) {
+//         add_found_size += use_left(node);
+//         node = node->right; 
+//         add_found_size += 1;
+//     }
+//     return add_found_size;
+// }
 
-    Node* node = tree->root;
+// void bypass(Tree* tree) {
+//     if (tree == NULL || tree->root == NULL) {
+//         return; // Проверка на NULL
+//     }
 
-    while(found_size < tree->size)
-    {
-        found_size += go_left(node);
+//     int i = 0;
+//     int found_size = 1;    
+//     Node* node = tree->root;
+//     printf("exp_size = %d\n", tree->size);    
+//     while (found_size < tree->size && i < 30) {
 
-        go_back(node);
-    }
-}
+//         printf("go_left, size = %d\n", found_size);
 
-int go_left(Node* node)
-{   
-    int add_found_size = 0;
+//         found_size += go_left(node);
 
-    while(node->right != NULL || node->left != NULL)
-    {
-        add_found_size += use_left(node);
+//         printf("go_back, size = %d\n", found_size);
 
-        node = node->right;
-
-        add_found_size += 1;
-    }
-    return add_found_size;
-}
-
-void go_back(Node* node)
-{
-    while(node->right == NULL){
-        node = node->parent;
-    }
-}
+//         go_back(node);
+//         i++;
+//     }
+// }
