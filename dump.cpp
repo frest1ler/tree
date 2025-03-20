@@ -24,7 +24,7 @@ void dump(Tree* tree, char* fname)
         exit(EXIT_FAILURE);
     }
     
-    fprintf(point_to_file, "digraph G\n {rankdir=TB;\n root [label=\"Header %p\" shape=box];\n", tree);
+    fprintf(point_to_file, "digraph G\n {rankdir=TB;\n root [label=\"Header tree %p\" shape=box];\n", tree);
     
     dump_first_node(tree, point_to_file);
 

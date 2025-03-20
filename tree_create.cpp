@@ -60,7 +60,6 @@ Tree* ctor_tree()
         printf("Memory allocation failed: Tree\n");
         return NULL;
     }
-
     Node* node = get_pointer_node();
 
     node->data    = POISON     ;
@@ -113,11 +112,25 @@ void insert(Tree* tree, int value)
 
 Node* go_back(Node* node, Tree* tree) 
 {   
+    Node* old_node = node;
+
     node = node->parent;
 
-    while (node != NULL && node->right == NULL && node != tree->root){
-        node = node->parent;
+    while(node != (Node*)tree)
+    {   
+        if (node->right != NULL && node->right != old_node && node->left != old_node){
+            printf("after_back node=%p\n", node->right);
+            return node->right;
+        }
+        node     = node->parent;
+        old_node = node        ;
     }
+    printf("after_back node=%p\n", node);
+    if(node == tree->root){
+        node = node->right;
+    }
+    printf("after_back node=%p\n", node);
+
     return node;
 }
 
@@ -127,8 +140,12 @@ Node* go_left(Node* node, Tree* tree, int* add_el, FILE * point_to_file)
         return NULL; 
     }
 
-    printf("right = %p left = %p\n", node->right, node->left);  
+    printf("node = %p right = %p left = %p\n", node, node->right, node->left);  
 
+    if (node->right == NULL && node->left == NULL && node == node->parent->right){
+        dump_node(node, point_to_file);
+        (*add_el)++;
+    }
     while (node->right != NULL || node->left != NULL)
     {   
         while (node->left != NULL){   
@@ -207,7 +224,8 @@ void bypass(Tree* tree, FILE * point_to_file)
 
     int found_size = 1;    
     Node* node = tree->root;
-    printf("exp_size = %d\n", tree->size);    
+    printf("exp_size = %d\n", tree->size);
+
     while (found_size < tree->size) 
     {
         printf("go_left, size = %d\n", found_size);
@@ -215,8 +233,8 @@ void bypass(Tree* tree, FILE * point_to_file)
         node = go_left(node, tree, &found_size, point_to_file);
 
         printf("go_back, size = %d\n", found_size);
-
-        go_back(node, tree);
+        printf("exp=%d, have=%d\n", tree->size, found_size);
+        node = go_back(node, tree);
     }
     printf("end_bypass\n");
 }
