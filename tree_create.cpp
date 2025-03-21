@@ -116,20 +116,20 @@ Node* go_back(Node* node, Tree* tree)
 
     node = node->parent;
 
-    while(node != (Node*)tree)
+    while(node != tree->root)
     {   
         if (node->right != NULL && node->right != old_node && node->left != old_node){
-            printf("after_back node=%p\n", node->right);
+            printf("1after_back node=%p\n", node->right);
             return node->right;
         }
-        node     = node->parent;
         old_node = node        ;
+        node     = node->parent;
     }
-    printf("after_back node=%p\n", node);
+    printf("2after_back node=%p\n", node);
     if(node == tree->root){
         node = node->right;
     }
-    printf("after_back node=%p\n", node);
+    printf("3after_back node=%p\n", node);
 
     return node;
 }
@@ -140,16 +140,26 @@ Node* go_left(Node* node, Tree* tree, int* add_el, FILE * point_to_file)
         return NULL; 
     }
 
-    printf("node = %p right = %p left = %p\n", node, node->right, node->left);  
+    //printf("node = %p right = %p left = %p\n", node, node->right, node->left);  
 
     if (node->right == NULL && node->left == NULL && node == node->parent->right){
         dump_node(node, point_to_file);
+        printf("hlt\n");
+        printf("node=%p\n", node);
+        printf("hlt\n");
+        (*add_el)++;
+    }
+    else if (node->left != NULL || node->right != NULL && node == node->parent->right){
+        dump_node(node, point_to_file);
+        printf("hltx2\n");
+        printf("node=%p\n", node);
+        printf("hltx2\n");
         (*add_el)++;
     }
     while (node->right != NULL || node->left != NULL)
     {   
         while (node->left != NULL){   
-            printf("\ndata=%d\nptr=%p\nparent=%p\nleft=%p\nright=%p\n", node->data, node->pointer, node->parent, node->left, node->right);
+            //printf("\ndata=%d\nptr=%p\nparent=%p\nleft=%p\nright=%p\n", node->data, node->pointer, node->parent, node->left, node->right);
             node = node->left;
             dump_node(node, point_to_file); 
             (*add_el)++;
@@ -196,21 +206,15 @@ void bypass_destroy(Tree* tree)
     Node* dest_node  = 0         ;  
     Node* node       = tree->root;
 
-    printf("exp_size = %d\n", tree->size);
-
     while (tree->size > 0) 
     {
-        printf("node = %p\n", node);
         node = go_left_destroy(node, tree);
-        printf("nodex2 = %p\n", node);
-        printf("node_dest = %d\n", node->data);
+
         dest_node = node;
 
         tree->size --;
 
         node = tree->root;
-
-        printf("right=%p left=%p\n", node->right, node->left);
 
         node_destroy(dest_node);
     }

@@ -26,6 +26,7 @@ int main()
     insert(tree, 4);
     insert(tree, 3);
     insert(tree, 7);
+    insert(tree, 8);
     insert(tree, 35);
     insert(tree, 45);
     //insert(tree, 26);
