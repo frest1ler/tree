@@ -117,8 +117,8 @@ Node* go_back(Node* node, Tree* tree)
     node = node->parent;
 
     while(node != tree->root)
-    {   
-        if (node->right != NULL && node->right != old_node && node->left != old_node){
+    {                                                   // && node->left != old_node
+        if (node->right != NULL && node->right != old_node){
             printf("1after_back node=%p\n", node->right);
             return node->right;
         }
